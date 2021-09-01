@@ -17,7 +17,7 @@ use work.all;
 	  signal  sum_i: std_logic;
 		
 	begin
-		 add_0: adder port map (x(0), y(0), cin, sum_i, cout_i(0));
+		 add_0: adder port map (x(0), y(0), cin, sum_i, cout_i(0)); -- basicamente são 4 full adders, o primeiro usa cin e os primeiros bits dos vetores, o segundo usa os segundos bits e o cin do primeiro adder e daí em diante
      cin_i(0) <= cout_i(0);
      add_1: adder port map (x(1), y(1), cin_i(0), res(1),cout_i(1));
 	  cin_i(1) <= cout_i(1);

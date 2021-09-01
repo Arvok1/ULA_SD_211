@@ -1,5 +1,3 @@
-
--- Somador4bits 
 library IEEE;
 use IEEE.std_logic_1164.all;
 use work.all; 
@@ -14,7 +12,7 @@ use work.all;
   end Ula_teste;  
   
   architecture calcular of Ula_teste is
-	signal vector_a_temp, vector_b_temp, result_soma, result_sub, result_comp_2, res_and, res_or, res_xor, res_xnor : std_logic_vector ( 3 downto 0 ); 
+	signal vector_a_temp, vector_b_temp, result_soma, result_sub, result_comp_2, res_and, res_or, res_xor, res_xnor, result_t: std_logic_vector ( 3 downto 0 ); 
 	signal cin_temp: std_logic;	
 	
 	Begin -- os "componentes" precisam ser declarados antes, visto que "não se pode incluir um componente em um hardware do nada"
@@ -38,41 +36,51 @@ use work.all;
 		case selection is
 			  
 			  when "000" => -- Soma
-			  result <= result_soma;
+			  result_t <= result_soma;
 			  logic_result <= "0000";	
 			  
 			  when "001" => -- Subtração
-			  result <= result_sub;
+			  result_t <= result_sub;
 			  logic_result <= "0000";				 
 						
 			  when "010" => -- mesmo full-adder
 			   vector_b_temp <= "0001";
-				result <= result_soma;-- Incremento
+				result_t <= result_soma;-- Incremento
 				logic_result <= "0000";					  
 								 
 			  when "011" => -- usa o mesmo full-adder de soma
 		
 			  logic_result <= "0000"; 	
-			  result <= result_comp_2;-- troca de sinal
+			  result_t <= result_comp_2;-- troca de sinal
 								 
 								 
-			  when "100" => result <= "0000"; -- AND
+			  when "100" => result_t <= "0000"; -- AND
 								logic_result <= res_and;
 								
-			  when "101" => result <= "0000"; -- OR
+			  when "101" => result_t <= "0000"; -- OR
 								logic_result <= res_or;
 								
-			  when "110" => result <= "0000"; -- XOR
+			  when "110" => result_t <= "0000"; -- XOR
 								logic_result <= res_xor;
 								
-			  when "111" => result <= "0000"; -- XNOR
+			  when "111" => result_t <= "0000"; -- XNOR
 								logic_result <= res_xnor;
 								
-			  when others => result <= "0000"; -- 
+			  when others => result_t <= "0000"; -- 
 							logic_result <= "0000";
 								
-			  end case; 
+			  end case;
+			 case result_t is 
+			when "0000" =>
+				zero <= '1';
+			when others =>
+				zero <= '0';
+			end case;
+		
+			result <= result_t;
+			
 		End process ula_selection;	
+		
 End calcular;
 					
 -- Flip Flop
